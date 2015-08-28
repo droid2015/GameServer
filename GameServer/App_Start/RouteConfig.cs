@@ -15,15 +15,19 @@ namespace GameServer
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            
+            routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                constraints: new { controller = @"^(?!connect)\w+$" }
+            );
             //them
             routes.Add(new ServiceRoute("connect",
                 new WebSocketServiceHostFactory(),
                 typeof(GameWebSocketService)));
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
+            //
+            //routes.MapServiceRoute
         }
     }
 }
